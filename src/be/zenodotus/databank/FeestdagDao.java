@@ -54,6 +54,22 @@ public class FeestdagDao {
 		
 	}
 	
+	public Feestdag getFeestdag(int jaar, int maand, int dag) {
+		String selectQuery = "Select * from " + TABLE_FEESTDAGEN + " where jaar = " + jaar + " and maand = " + maand + " and dag = " + dag;
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		if(cursor.moveToFirst()) {
+			Feestdag feestdag = new Feestdag();
+			feestdag.setId(Integer.parseInt(cursor.getString(0)));
+			feestdag.setJaar(Integer.parseInt(cursor.getString(2)));
+			feestdag.setMaand(Integer.parseInt(cursor.getString(3)));
+			feestdag.setDag(Integer.parseInt(cursor.getString(4)));
+			feestdag.setFeestdag(cursor.getString(1));
+			return feestdag;
+		} else {
+			return null;
+		}
+	}
+	
 	public List<Feestdag> getFeestdagenperJaar(int jaar) {
 		
 			ArrayList<Feestdag> feestdagLijst = new ArrayList<Feestdag>();
@@ -64,15 +80,15 @@ public class FeestdagDao {
 				do {
 					Feestdag feestdag = new Feestdag();
 					feestdag.setId(Integer.parseInt(cursor.getString(0)));
-					feestdag.setJaar(Integer.parseInt(cursor.getString(1)));
-					feestdag.setMaand(Integer.parseInt(cursor.getString(2)));
-					feestdag.setDag(Integer.parseInt(cursor.getString(3)));
-					feestdag.setFeestdag(cursor.getString(4));
+					feestdag.setJaar(Integer.parseInt(cursor.getString(2)));
+					feestdag.setMaand(Integer.parseInt(cursor.getString(3)));
+					feestdag.setDag(Integer.parseInt(cursor.getString(4)));
+					feestdag.setFeestdag(cursor.getString(1));
 									
 					feestdagLijst.add(feestdag);
 				} while (cursor.moveToNext());
 			}
-			return feestdagLijst;
-		}
+		return feestdagLijst;
 	}
+	
 }

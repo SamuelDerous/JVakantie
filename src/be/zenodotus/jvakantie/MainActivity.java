@@ -13,13 +13,18 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import be.zenodotus.adapters.DagenAdapter;
 import be.zenodotus.data.BWBelgischeFeestdagen;
+import be.zenodotus.data.KalenderItems;
 import be.zenodotus.databank.Feestdag;
 import be.zenodotus.databank.FeestdagDao;
 import be.zenodotus.databank.Verlof;
 import be.zenodotus.databank.VerlofDao;
+import be.zenodotus.databank.Werkdag;
+import be.zenodotus.databank.WerkdagDao;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,15 +48,16 @@ public class MainActivity extends ActionBarActivity {
 
 	GridView gridView;
 	
-	
-	
 	private TextView txtMaand;
 	private ImageButton btnTerug, btnVerder;
 	private int[] dagen = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	private String[] weekdagen = {"ZO", "ZO", "MA", "DI", "WO", "DO", "VR", "ZA"};
+	private String[] strDagen;
 	private GregorianCalendar kal;
 	private List<Feestdag> feestdagen;
+	private List<Werkdag> weekend;
 	private FeestdagDao dao;
+	private WerkdagDao werkdagDao;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,9 +76,10 @@ public class MainActivity extends ActionBarActivity {
 				dao.toevoegenFeestdag(maken.get(i));
 			}
 		}
-		dao.close();
+		dao.close(); 
 		vulMaand();
 		setKalender();
+		
 	}
 
 	private void vulMaand() {
@@ -86,8 +94,6 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				setVorigeMaand();
-				
-				
 			}
 		});
 		
@@ -103,8 +109,7 @@ public class MainActivity extends ActionBarActivity {
 		
 	}
 	
-	
-	
+		
 	@Override
 	public void onRestart() {
 		super.onRestart();
@@ -142,44 +147,66 @@ public class MainActivity extends ActionBarActivity {
 	dag.set(jaar, maand, 1);
 	
 	vulMaand();
-	String[] items = new String[dagen[maand]];
-	VerlofDao dao = new VerlofDao(this);
-	dao.open();		
-	ArrayList<Verlof> verloflijst = dao.getAlleVerlovenPerJaar(jaar, maand);
-	dao.close();
+	final KalenderItems[] items = new KalenderItems[dagen[maand]];
+	strDagen = new String[dagen[maand]];
+	VerlofDao verlofDao = new VerlofDao(this);
+	verlofDao.open();		
+	ArrayList<Verlof> verloflijst = verlofDao.getAlleVerlovenPerJaar(jaar, maand);
+	verlofDao.close();
 	for(int i = 0; i < dagen[maand]; i++) {
-		dag.set(Calendar.DAY_OF_MONTH, i + 1);
 		
-		items[i] = weekdagen[dag.get(Calendar.DAY_OF_WEEK)] + "\t " + (i + 1) + "\t";
+		dag.set(Calendar.DAY_OF_MONTH, i + 1);
+		items[i] = new KalenderItems();
+		items[i].setWeekdag(weekdagen[dag.get(Calendar.DAY_OF_WEEK)]);
+		items[i].setDag(i + 1);
+		List<Verlof> verloven = new ArrayList<Verlof>();
 		for(int j = 0; j < verloflijst.size(); j++) {
 			if ((verloflijst.get(j).getDag() == i)) {
-				items[i] += " " + verloflijst.get(j).getVerlofsoort() + " " + verloflijst.get(j).getUrental();
-				if (verloflijst.size() > 1) {
-						items[i] += "\n\t\t\t\t\t";
-				}
+				verloven.add(verloflijst.get(j));
+				
 			}
+		}
+		items[i].setVerlof(verloven);
+		dao.open();
+		Feestdag feestdag = dao.getFeestdag(jaar, maand, i + 1);
+		if (feestdag != null) {
+			items[i].setFeestdag(true);
+		} else {
+			items[i].setFeestdag(false);
 		}
 		
 		
 	}
 	
-	gridView = (GridView) findViewById(R.id.gridView1);
-
-	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+	//gridView = (GridView) findViewById(R.id.gridView1);
+	ListView lst = (ListView) findViewById(R.id.lvkalenderdagen);
+	DagenAdapter<String> adapter = new DagenAdapter<String>(this,
 			android.R.layout.simple_list_item_1, items);
+	
+	lst.setAdapter(adapter);
 
 	adapter.notifyDataSetChanged();
-	gridView.setAdapter(adapter);
+	
 
-	gridView.setOnItemClickListener(new OnItemClickListener() {
+	lst.setOnItemClickListener(new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View v,
 			int position, long id) {
-		   
-			Intent addIntent = new Intent(MainActivity.this, AddActivity.class);
-			addIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
-			addIntent.putExtra("MAAND", kal.get(Calendar.MONTH));
-			addIntent.putExtra("DAG", position);
-			MainActivity.this.startActivity(addIntent);
+			boolean weekenddag = false;
+			werkdagDao = new WerkdagDao(MainActivity.this);
+			werkdagDao.open();
+			List<Werkdag> weekend = werkdagDao.getWeekend();
+			for(int i = 0; i < weekend.size(); i++) {
+				if (weekend.get(i).getDag().equalsIgnoreCase(items[position].getWeekdag())) {
+					weekenddag = true;
+				}
+			}
+			if (!weekenddag) {
+				Intent addIntent = new Intent(MainActivity.this, AddActivity.class);
+				addIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
+				addIntent.putExtra("MAAND", kal.get(Calendar.MONTH));
+				addIntent.putExtra("DAG", position);
+				MainActivity.this.startActivity(addIntent);
+			}
 			
 		}
 	});

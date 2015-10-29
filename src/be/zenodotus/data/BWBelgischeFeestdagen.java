@@ -200,7 +200,7 @@ public class BWBelgischeFeestdagen {
         List<Feestdag> feest = feesten.getFeestdagen();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println(feest.get(0).getFeestdag() + " ");
-        System.out.println(formatter.format(feest.get(0).getDatum().getTime()));
+        
     }
   
 
