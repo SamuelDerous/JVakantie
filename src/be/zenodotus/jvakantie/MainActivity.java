@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import be.zenodotus.adapters.DagenAdapter;
+import be.zenodotus.creatie.GeneratePDF;
 import be.zenodotus.data.BWBelgischeFeestdagen;
 import be.zenodotus.data.KalenderItems;
 import be.zenodotus.databank.Feestdag;
@@ -24,9 +25,12 @@ import be.zenodotus.databank.Werkdag;
 import be.zenodotus.databank.WerkdagDao;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +40,7 @@ import android.widget.CalendarView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -52,20 +57,17 @@ public class MainActivity extends ActionBarActivity {
 	private ImageButton btnTerug, btnVerder;
 	private int[] dagen = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	private String[] weekdagen = {"ZO", "ZO", "MA", "DI", "WO", "DO", "VR", "ZA"};
-	private String[] strDagen;
 	private GregorianCalendar kal;
+	private String[] strDagen;
 	private List<Feestdag> feestdagen;
-	private List<Werkdag> weekend;
 	private FeestdagDao dao;
 	private WerkdagDao werkdagDao;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		kal = new GregorianCalendar();
-		if (kal.isLeapYear(kal.get(GregorianCalendar.YEAR))) {
-			dagen[1] = 29;
-		}
 		dao = new FeestdagDao(this);
 		dao.open();
 		feestdagen = dao.getFeestdagenperJaar(kal.get(GregorianCalendar.YEAR));
@@ -147,6 +149,9 @@ public class MainActivity extends ActionBarActivity {
 	dag.set(jaar, maand, 1);
 	
 	vulMaand();
+	if (kal.isLeapYear(kal.get(GregorianCalendar.YEAR))) {
+		dagen[1] = 29;
+	}
 	final KalenderItems[] items = new KalenderItems[dagen[maand]];
 	strDagen = new String[dagen[maand]];
 	VerlofDao verlofDao = new VerlofDao(this);
@@ -178,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
 		
 	}
 	
-	//gridView = (GridView) findViewById(R.id.gridView1);
+	
 	ListView lst = (ListView) findViewById(R.id.lvkalenderdagen);
 	DagenAdapter<String> adapter = new DagenAdapter<String>(this,
 			android.R.layout.simple_list_item_1, items);
@@ -239,6 +244,46 @@ public class MainActivity extends ActionBarActivity {
 		case R.id.mnuBerekeningen:
 			Intent berekeningenIntent = new Intent(this, BerekeningenActivity.class);
 			this.startActivity(berekeningenIntent);
+			break;
+			
+		case R.id.mnuPDF:
+			LayoutInflater li = LayoutInflater.from(this);
+			View promptsView = li.inflate(R.layout.prompt_jaar, null);
+
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					this);
+
+			// set prompts.xml to alertdialog builder
+			alertDialogBuilder.setView(promptsView);
+
+			final EditText userInput = (EditText) promptsView
+					.findViewById(R.id.txtJaarInput);
+
+			// set dialog message
+			alertDialogBuilder
+				.setCancelable(false)
+				.setPositiveButton("OK",
+				  new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog,int id) {
+					// get user input and set it to result
+					// edit text
+				    	GeneratePDF nieuw = new GeneratePDF();
+				    	String bestand = nieuw.vakantieAfdruk(MainActivity.this, "test.pdf", Integer.parseInt(userInput.getText().toString()));
+				    	Toast.makeText(MainActivity.this, "pdf " + bestand + " aangemaakt", Toast.LENGTH_LONG).show();
+				    }
+				  })
+				.setNegativeButton("Cancel",
+				  new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog,int id) {
+					dialog.cancel();
+				    }
+				  });
+
+			// create alert dialog
+			AlertDialog alertDialog = alertDialogBuilder.create();
+
+			// show it
+			alertDialog.show();
 			break;
 		
 		case R.id.action_settings:

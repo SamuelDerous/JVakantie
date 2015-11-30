@@ -21,10 +21,16 @@
         android:title="@string/berekeningen"
         app:showAsAction="never" />
     
-        
+    
+    <item 
+        android:id="@+id/mnuPDF"
+        android:orderInCategory="400"
+        android:title="@string/pdf"
+        app:showAsAction="never" />
+            
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="400"
+        android:orderInCategory="500"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
     
