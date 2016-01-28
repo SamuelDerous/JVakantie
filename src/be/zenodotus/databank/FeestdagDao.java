@@ -45,7 +45,6 @@ public class FeestdagDao {
 			initialValues.put(FEEST_MAAND, feestdag.getMaand());
 			initialValues.put(FEEST_DAG, feestdag.getDag());
 			initialValues.put(FEEST_FEESTDAG, feestdag.getFeestdag());
-			initialValues.put(FEEST_OPGENOMEN, 0);
 			
 			
 			return db.insert(TABLE_FEESTDAGEN, null, initialValues);

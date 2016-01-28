@@ -7,7 +7,7 @@ public class Feestdag {
 	private int id;
 	private String feestdag;
 	private int jaar, dag, maand;
-	private boolean opgenomen;
+	
 	
 	public String getFeestdag() {
 		return feestdag;
@@ -16,12 +16,7 @@ public class Feestdag {
 		this.feestdag = feestdag;
 	}
 	
-	public boolean isOpgenomen() {
-		return opgenomen;
-	}
-	public void setOpgenomen(boolean opgenomen) {
-		this.opgenomen = opgenomen;
-	}
+	
 	public int getJaar() {
 		return jaar;
 	}

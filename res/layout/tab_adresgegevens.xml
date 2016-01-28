@@ -3,12 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <TextView android:layout_width="fill_parent"
+    <TextView 
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Design Werkdagen screen"
-        android:textSize="20dp"
-        android:layout_centerInParent="true" />
+        android:text="@string/strNaam"
+        android:layout_column="0"
+        android:layout_row="0" />
+    
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtNaam"
+        android:layout_column="1"
+        android:layout_row="0"
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strAdres"
+        android:layout_column="0"
+        android:layout_row="1"
+    />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:id="@+id/txtAdres"
+        android:layout_column="1"
+        android:layout_row="1"
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strTelefoon"
+        android:layout_column="0"
+        android:layout_row="2"
+    />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtTelefoon"
+        android:layout_column="1"
+        android:layout_row="2"
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/strEmail"
+        android:layout_column="0"
+        android:layout_row="3"
+    />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:id="@+id/txtEmail"
+        android:layout_column="1"
+        android:layout_row="3"
+        />
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnBewaren"
+        android:text="@string/btnBewaren"
+        android:layout_column="0"
+        android:layout_row="4"
+        android:layout_columnSpan="2" />
+    
 </GridLayout>
     
 

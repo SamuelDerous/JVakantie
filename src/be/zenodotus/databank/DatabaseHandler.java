@@ -17,6 +17,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String TABLE_SOORT_VERLOF = "tblSoortVerlof";
 	private static final String TABLE_VERLOF = "tblVerlof";
 	private static final String TABLE_WERKDAGEN = "tblWerkdagen";
+	private static final String TABLE_PERSONAL = "tblPersonal";
+	
+	//records tblpersonal
+	private static final String PERSONAL_ID = "id";
+	private static final String PERSONAL_NAAM = "naam";
+	private static final String PERSONAL_ADRES = "adres";
+	private static final String PERSONAL_TELEFOON = "telefoon";
+	private static final String PERSONAL_EMAIL = "email";
+	private static final String PERSONAL_WERKGEVER = "werkgever";
+	private static final String PERSONAL_WGADRES = "werkgeversadres";
+	private static final String PERSONAL_WGTELEFOON = "werkgeverstelefoon";
+	private static final String PERSONAL_WGEMAIL = "werkgeversemail";
 	
 	// records tblFeestdagen
 	private static final String FEEST_ID = "volgnummer";
@@ -53,8 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase arg0) {
 		String createFeestdagenTable = "create table " + TABLE_FEESTDAGEN + "("
 				+ FEEST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FEEST_FEESTDAG + " TEXT NOT NULL, " 
-				+ FEEST_JAAR + " INTEGER NOT NULL, " + FEEST_MAAND + " INTEGER NOT NULL, " + FEEST_DAG + " INTEGER NOT NULL, "
-				+ FEEST_OPGENOMEN + "INTEGER);";
+				+ FEEST_JAAR + " INTEGER NOT NULL, " + FEEST_MAAND + " INTEGER NOT NULL, " + FEEST_DAG + " INTEGER NOT NULL); ";
 		String createSoortVerlofTable = "create table " + TABLE_SOORT_VERLOF + "("
 				+ SOORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + SOORT_SOORT + " TEXT, "
 				+ SOORT_UREN + " TEXT);";
@@ -63,10 +74,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ VERLOF_UREN + " TEXT NOT NULL, " + VERLOF_SOORT + " TEXT NOT NULL, " + VERLOF_NIEUW + " INTEGER);";
 		String createWerkdagenTable = "create table " + TABLE_WERKDAGEN + "(" + WERK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
 				+ WERK_DAG + " TEXT NOT NULL, " + WERK_WERKDAG + " INTEGER);";
+		String createPersonalTable = "create table " + TABLE_PERSONAL + "(" + PERSONAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
+				+ PERSONAL_NAAM + " TEXT NOT NULL, " + PERSONAL_ADRES + " TEXT NOT NULL, " + PERSONAL_TELEFOON + " TEXT NOT NULL, " 
+				+ PERSONAL_EMAIL + " TEXT NOT NULL, " + PERSONAL_WERKGEVER + " TEXT NOT NULL, " + PERSONAL_WGADRES + " TEXT NOT NULL, "
+				+ PERSONAL_WGTELEFOON + " TEXT NOT NULL, " + PERSONAL_WGEMAIL + " TEXT NOT NULL);";
 		arg0.execSQL(createFeestdagenTable);
 		arg0.execSQL(createSoortVerlofTable);
 		arg0.execSQL(createVerlofTable);
 		arg0.execSQL(createWerkdagenTable);
+		arg0.execSQL(createPersonalTable);
 		String vulWerkdagenTable = "insert into " + TABLE_WERKDAGEN + "(" + WERK_DAG + ", " + WERK_WERKDAG + ") VALUES ('MA', 1);";
 		arg0.execSQL(vulWerkdagenTable);
 		vulWerkdagenTable = "insert into " + TABLE_WERKDAGEN + "(" + WERK_DAG + ", " + WERK_WERKDAG + ") VALUES ('DI', 0);";
@@ -80,7 +96,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		vulWerkdagenTable = "insert into " + TABLE_WERKDAGEN + "(" + WERK_DAG + ", " + WERK_WERKDAG + ") VALUES ('ZA', 0);";
 		arg0.execSQL(vulWerkdagenTable);
 		vulWerkdagenTable = "insert into " + TABLE_WERKDAGEN + "(" + WERK_DAG + ", " + WERK_WERKDAG + ") VALUES ('ZO', 0);";
+		String vulPersonal = "insert into " + TABLE_PERSONAL + "(" + PERSONAL_NAAM + ") VALUES ('John Doe');";
 		arg0.execSQL(vulWerkdagenTable);
+		arg0.execSQL(vulPersonal);
 	}
 
 	@Override
@@ -89,6 +107,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		arg0.execSQL("drop table if exists" + TABLE_FEESTDAGEN);
 		arg0.execSQL("drop table if exists" + TABLE_VERLOF);
 		arg0.execSQL("drop table if exists" + TABLE_WERKDAGEN);
+		arg0.execSQL("drop table if exists" + TABLE_PERSONAL);
 		onCreate(arg0);
 
 	}

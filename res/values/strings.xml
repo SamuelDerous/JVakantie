@@ -17,6 +17,11 @@
 	<string name="settings">Settings</string>
 	<string name="pdf">Maak PDF</string>
 	<string name="jaarInput">Geef het te genereren jaar: </string>
+	<string name="strNaam">Naam: </string>
+	<string name="strAdres">Adres: </string>
+	<string name="strTelefoon">GSM-nummer: </string>
+	<string name="strEmail">E-mailadres:</string>
+	<string name="btnBewaren">Bewaren</string>
 	
 	<string name="monday">MA</string>
 	<string name="tuesday">DI</string>
