@@ -58,7 +58,7 @@ public class AddActivity extends Activity {
 				for(int i = 0; i < berekeningen.size(); i++) {
 					if (berekeningen.get(i).getSoort().equals(verlof.getVerlofsoort())) {
 							berekeningen.get(i).aftrekken(verlof.getUrental());
-							if(berekeningen.get(i).getUren() <= 0) {
+							if(berekeningen.get(i).getUren() < 0) {
 								Toast.makeText(AddActivity.this, "Het verlofquota is overschreden", Toast.LENGTH_LONG).show();
 								isVerlofOk = false;
 								break;
