@@ -1209,30 +1209,31 @@ containing a value of this type.
         public static final int addVerlof=0x7f0a0010;
         public static final int app_name=0x7f0a000d;
         public static final int berekeningen=0x7f0a0019;
-        public static final int btnBewaren=0x7f0a0021;
-        public static final int friday=0x7f0a0026;
+        public static final int btnBewaren=0x7f0a0022;
+        public static final int friday=0x7f0a0027;
         public static final int hello_world=0x7f0a000e;
         public static final int hintUren=0x7f0a0012;
-        public static final int jaarInput=0x7f0a001c;
+        public static final int jaarInput=0x7f0a001d;
         public static final int knopToevoegen=0x7f0a0015;
         public static final int lblToevoegen=0x7f0a0011;
-        public static final int monday=0x7f0a0022;
+        public static final int monday=0x7f0a0023;
+        public static final int openPdf=0x7f0a001c;
         public static final int pdf=0x7f0a001b;
-        public static final int saturday=0x7f0a0027;
+        public static final int saturday=0x7f0a0028;
         public static final int settings=0x7f0a001a;
         public static final int soort=0x7f0a0013;
         public static final int soortToevoegen=0x7f0a0017;
         public static final int soorten=0x7f0a0018;
-        public static final int strAdres=0x7f0a001e;
-        public static final int strEmail=0x7f0a0020;
-        public static final int strNaam=0x7f0a001d;
-        public static final int strTelefoon=0x7f0a001f;
-        public static final int sunday=0x7f0a0028;
-        public static final int thursday=0x7f0a0025;
+        public static final int strAdres=0x7f0a001f;
+        public static final int strEmail=0x7f0a0021;
+        public static final int strNaam=0x7f0a001e;
+        public static final int strTelefoon=0x7f0a0020;
+        public static final int sunday=0x7f0a0029;
+        public static final int thursday=0x7f0a0026;
         public static final int toevoegen=0x7f0a0016;
-        public static final int tuesday=0x7f0a0023;
+        public static final int tuesday=0x7f0a0024;
         public static final int uurformaat=0x7f0a0014;
-        public static final int wednesday=0x7f0a0024;
+        public static final int wednesday=0x7f0a0025;
     }
     public static final class style {
         /** 

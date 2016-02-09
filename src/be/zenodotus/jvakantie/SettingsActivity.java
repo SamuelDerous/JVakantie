@@ -59,7 +59,7 @@ public class SettingsActivity extends FragmentActivity implements ActionBar.TabL
 	}
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
+		actionBar.setSelectedNavigationItem(tab.getPosition());
 		
 	}
 	@Override

@@ -27,7 +27,7 @@
         android:orderInCategory="400"
         android:title="@string/pdf"
         app:showAsAction="never" />
-            
+    
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="500"

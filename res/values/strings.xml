@@ -16,6 +16,7 @@
 	<string name="berekeningen">Berekeningen</string>
 	<string name="settings">Settings</string>
 	<string name="pdf">Maak PDF</string>
+	<string name="openPdf">Open PDF</string>
 	<string name="jaarInput">Geef het te genereren jaar: </string>
 	<string name="strNaam">Naam: </string>
 	<string name="strAdres">Adres: </string>

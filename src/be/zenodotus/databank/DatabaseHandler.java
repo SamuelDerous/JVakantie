@@ -75,9 +75,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String createWerkdagenTable = "create table " + TABLE_WERKDAGEN + "(" + WERK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
 				+ WERK_DAG + " TEXT NOT NULL, " + WERK_WERKDAG + " INTEGER);";
 		String createPersonalTable = "create table " + TABLE_PERSONAL + "(" + PERSONAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
-				+ PERSONAL_NAAM + " TEXT NOT NULL, " + PERSONAL_ADRES + " TEXT NOT NULL, " + PERSONAL_TELEFOON + " TEXT NOT NULL, " 
-				+ PERSONAL_EMAIL + " TEXT NOT NULL, " + PERSONAL_WERKGEVER + " TEXT NOT NULL, " + PERSONAL_WGADRES + " TEXT NOT NULL, "
-				+ PERSONAL_WGTELEFOON + " TEXT NOT NULL, " + PERSONAL_WGEMAIL + " TEXT NOT NULL);";
+				+ PERSONAL_NAAM + " TEXT, " + PERSONAL_ADRES + " TEXT, " + PERSONAL_TELEFOON + " TEXT, " 
+				+ PERSONAL_EMAIL + " TEXT, " + PERSONAL_WERKGEVER + " TEXT, " + PERSONAL_WGADRES + " TEXT, "
+				+ PERSONAL_WGTELEFOON + " TEXT, " + PERSONAL_WGEMAIL + " TEXT);";
 		arg0.execSQL(createFeestdagenTable);
 		arg0.execSQL(createSoortVerlofTable);
 		arg0.execSQL(createVerlofTable);
@@ -99,6 +99,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String vulPersonal = "insert into " + TABLE_PERSONAL + "(" + PERSONAL_NAAM + ") VALUES ('John Doe');";
 		arg0.execSQL(vulWerkdagenTable);
 		arg0.execSQL(vulPersonal);
+		String vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('55', '230:24');";
+		arg0.execSQL(vulSoorten);
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('AN', '19:12');";
+		arg0.execSQL(vulSoorten);
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('C', '76:48');";
+		arg0.execSQL(vulSoorten);
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('CV', '12:48');";
+		arg0.execSQL(vulSoorten);
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('JV', '128:00');";
+		arg0.execSQL(vulSoorten);
+		
+		
+		
+		
 	}
 
 	@Override
