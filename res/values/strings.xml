@@ -23,6 +23,7 @@
 	<string name="strTelefoon">GSM-nummer: </string>
 	<string name="strEmail">E-mailadres:</string>
 	<string name="btnBewaren">Bewaren</string>
+	<string name="verlofBtn">Verwijderen</string>
 	
 	<string name="monday">MA</string>
 	<string name="tuesday">DI</string>

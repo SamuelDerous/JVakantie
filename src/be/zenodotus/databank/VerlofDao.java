@@ -52,6 +52,12 @@ public class VerlofDao {
 			
 	}
 	
+	public long verwijderenVerlof(Verlof verlof) {
+		String where = VERLOF_JAAR + " = " + verlof.getJaar() + " and " + VERLOF_MAAND + " = " + verlof.getMaand() +
+				" and " + VERLOF_DAG + " = " + verlof.getDag();
+		return db.delete(TABLE_VERLOF, where, null);
+	}
+	
 	public ArrayList<Verlof> getAlleVerlovenPerJaar(int jaar, int maand) {
 		ArrayList<Verlof> verlofLijst = new ArrayList<Verlof>();
 		String selectQuery = "Select * from " + TABLE_VERLOF + " where jaar = " + jaar + " and maand = " + maand;
