@@ -13,19 +13,21 @@ public class Rekenen {
 		this.soort = soort;
 	}
 	
-	public void totaal(String tijd) {
+	public boolean totaal(String tijd) {
 		
 		String[] uurMinuut = tijd.split(":");
 		if(uurMinuut.length == 2 && isNumeric(uurMinuut[0]) && isNumeric(uurMinuut[1])) {
 			uren = Integer.parseInt(uurMinuut[0]);
 			minuten = Integer.parseInt(uurMinuut[1]);
+			return true;
 			
 		}
+		return false;
 		
 		
 	}
 	
-	public void aftrekken(String tijd) {
+	public boolean aftrekken(String tijd) {
 		String[] uurMinuut = tijd.split(":");
 		if(uurMinuut.length == 2 && isNumeric(uurMinuut[0]) && isNumeric(uurMinuut[1])) {
 			uren -= Integer.parseInt(uurMinuut[0]);
@@ -34,8 +36,10 @@ public class Rekenen {
 				uren--;
 				minuten = Math.abs(minuten);
 			}
+			return true;
 			
 		}
+		return false;
 	}
 	
 	public String totaal() {

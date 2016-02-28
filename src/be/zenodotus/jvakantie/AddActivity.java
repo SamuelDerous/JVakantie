@@ -57,11 +57,16 @@ public class AddActivity extends Activity {
 				List<Rekenen> berekeningen = new Totalen(AddActivity.this).berekenUren();
 				for(int i = 0; i < berekeningen.size(); i++) {
 					if (berekeningen.get(i).getSoort().equals(verlof.getVerlofsoort())) {
-							berekeningen.get(i).aftrekken(verlof.getUrental());
+							if(!berekeningen.get(i).aftrekken(verlof.getUrental())) {
+								Toast.makeText(AddActivity.this, "Het verlofquota staat niet in de juiste vorm (0:00)", Toast.LENGTH_LONG).show();
+								isVerlofOk = false;
+								break;
+							} else {
 							if(berekeningen.get(i).getUren() < 0) {
 								Toast.makeText(AddActivity.this, "Het verlofquota is overschreden", Toast.LENGTH_LONG).show();
 								isVerlofOk = false;
 								break;
+							}
 							}
 					}
 					
@@ -72,6 +77,7 @@ public class AddActivity extends Activity {
 					dao.close();
 					Toast.makeText(AddActivity.this, "Verlof toegevoegd", Toast.LENGTH_LONG).show();
 					txtUren.setText("");
+					AddActivity.this.finish();
 				}
 				
 			}

@@ -268,7 +268,7 @@ public class MainActivity extends ActionBarActivity {
 					// get user input and set it to result
 					// edit text
 				    	GeneratePDF nieuw = new GeneratePDF();
-				    	String bestand = nieuw.vakantieAfdruk(MainActivity.this, "test.pdf", Integer.parseInt(userInput.getText().toString()));
+				    	String bestand = nieuw.vakantieAfdruk(MainActivity.this, "JacquelineVandenbroecke" + Integer.parseInt(userInput.getText().toString()) + ".pdf", Integer.parseInt(userInput.getText().toString()));
 				    	Toast.makeText(MainActivity.this, "pdf " + bestand + " aangemaakt", Toast.LENGTH_LONG).show();
 				    }
 				  })

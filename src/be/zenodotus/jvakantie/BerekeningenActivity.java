@@ -57,8 +57,10 @@ public class BerekeningenActivity extends Activity {
 		List<Rekenen> berekening = new Totalen(this).berekenUren();
 		for(int i = 0; i < berekening.size(); i++) {
 			txtUren.add(new TextView(this));
+			txtUren.get(i).setTextSize(24);
 			txtUren.get(i).setText(berekening.get(i).totaal());
 			txtSoorten.add(new TextView(this));
+			txtSoorten.get(i).setTextSize(24);
 			txtSoorten.get(i).setText(berekening.get(i).getSoort());
 			
 			
