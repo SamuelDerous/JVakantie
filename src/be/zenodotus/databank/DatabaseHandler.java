@@ -9,7 +9,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private SQLiteDatabase db;
 	
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "Verlof";
 	
 	//tabellen
@@ -117,11 +117,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-		arg0.execSQL("drop table if exists" + TABLE_SOORT_VERLOF);
-		arg0.execSQL("drop table if exists" + TABLE_FEESTDAGEN);
-		arg0.execSQL("drop table if exists" + TABLE_VERLOF);
-		arg0.execSQL("drop table if exists" + TABLE_WERKDAGEN);
-		arg0.execSQL("drop table if exists" + TABLE_PERSONAL);
+		arg0.execSQL("drop table if exists " + TABLE_SOORT_VERLOF);
+		arg0.execSQL("drop table if exists " + TABLE_FEESTDAGEN);
+		arg0.execSQL("drop table if exists " + TABLE_VERLOF);
+		arg0.execSQL("drop table if exists " + TABLE_WERKDAGEN);
+		arg0.execSQL("drop table if exists " + TABLE_PERSONAL);
 		onCreate(arg0);
 
 	}
