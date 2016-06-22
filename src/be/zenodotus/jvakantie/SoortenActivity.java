@@ -49,10 +49,14 @@ public class SoortenActivity extends Activity {
 			txtSoorten.get(i).setText(verlofsoort.getSoort());
 			txtUren.get(i).setText(verlofsoort.getUren());
 			btnVerwerken.get(i).setText("Bewerken");
+			final int teller = i;
 			btnVerwerken.get(i).setOnClickListener(new View.OnClickListener() {
-
+			
 				@Override
 				public void onClick(View v) {
+					verlofsoort.setSoort(txtSoorten.get(teller).getText().toString());
+					verlofsoort.setUren(txtUren.get(teller).getText().toString());
+					
 					dao.open();
 					dao.updateSoort(verlofsoort);
 					dao.close();

@@ -10,6 +10,7 @@ import be.zenodotus.databank.VerlofDao;
 import be.zenodotus.databank.VerlofsoortDao;
 import be.zenodotus.databank.Verlofsoort;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,7 +78,10 @@ public class AddActivity extends Activity {
 					dao.close();
 					Toast.makeText(AddActivity.this, "Verlof toegevoegd", Toast.LENGTH_LONG).show();
 					txtUren.setText("");
-					AddActivity.this.finish();
+					Intent returnIntent = new Intent();
+					returnIntent.putExtra("result", maand);
+					setResult(2, returnIntent);
+					finish();
 				}
 				
 			}

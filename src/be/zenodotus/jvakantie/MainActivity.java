@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -62,12 +63,16 @@ public class MainActivity extends ActionBarActivity {
 	private List<Feestdag> feestdagen;
 	private FeestdagDao dao;
 	private WerkdagDao werkdagDao;
+	private GregorianCalendar nu;
+	private float x1, x2;
+	static final int MIN_DISTANCE = 150;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		kal = new GregorianCalendar();
+		nu = new GregorianCalendar();
 		dao = new FeestdagDao(this);
 		dao.open();
 		feestdagen = dao.getFeestdagenperJaar(kal.get(GregorianCalendar.YEAR));
@@ -112,13 +117,11 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 		
-	@Override
-	public void onRestart() {
-		super.onRestart();
-		finish();
-		startActivity(getIntent());
-		
+	public void onResume() {
+		super.onResume();
+		setKalender();
 	}
+	
 	
 	public void setVolgendeMaand() {
 		if(kal.get(Calendar.MONTH)== kal.getActualMaximum(Calendar.MONTH)) {
@@ -186,12 +189,20 @@ public class MainActivity extends ActionBarActivity {
 	
 	ListView lst = (ListView) findViewById(R.id.lvkalenderdagen);
 	DagenAdapter<String> adapter = new DagenAdapter<String>(this,
-			android.R.layout.simple_list_item_1, items);
+			android.R.layout.simple_list_item_1, items, maand, jaar);
 	
 	lst.setAdapter(adapter);
 
 	adapter.notifyDataSetChanged();
-	
+	/*lst.setOnTouchListener(new OnSwipeListener(this) {
+		public void onSwipeRight() {
+			setVolgendeMaand();
+		}
+		
+		public void onSwipeLeft() {
+			setVorigeMaand();
+		}
+	});*/
 
 	lst.setOnItemClickListener(new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View v,
@@ -210,7 +221,7 @@ public class MainActivity extends ActionBarActivity {
 				addIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
 				addIntent.putExtra("MAAND", kal.get(Calendar.MONTH));
 				addIntent.putExtra("DAG", position);
-				MainActivity.this.startActivity(addIntent);
+				MainActivity.this.startActivityForResult(addIntent, 2);
 			}
 			
 		}
@@ -226,7 +237,28 @@ public class MainActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		switch(event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			x1 = event.getX();
+			break;
+		case MotionEvent.ACTION_UP:
+			x2 = event.getX();
+			float deltaX = x2 - x1;
+			if (Math.abs(deltaX) > MIN_DISTANCE) {
+				if (x2 < x1) {
+					setVolgendeMaand();
+				}
+				else {
+					setVorigeMaand();
+				}
+			}
+		}
+		return super.onTouchEvent(event);
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
