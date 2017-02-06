@@ -22,10 +22,10 @@ public class Totalen {
 	private Calendar cal;
 
 	
-	public Totalen(Context context) {
+	public Totalen(Context context, int jaar) {
 		this.context = context;
-		cal = Calendar.getInstance();
-		jaar = cal.get(Calendar.YEAR);
+		
+		this.jaar = jaar;
 		berekeningen = new ArrayList<Rekenen>();
 		
 	}
@@ -33,7 +33,7 @@ public class Totalen {
 	public void getSoorten() {
 		verlofsoortDao = new VerlofsoortDao(context);
 		verlofsoortDao.open();
-		verlofsoorten = verlofsoortDao.getAlleSoorten();
+		verlofsoorten = verlofsoortDao.getAlleSoortenPerJaar(jaar);
 		verlofsoortDao.close();
 	}
 	
@@ -52,6 +52,7 @@ public List<Rekenen> berekenUren() {
 			berekeningen.add(berekening);
 
 		}
+		verlofDao.close();
 		return berekeningen;
 }
 	

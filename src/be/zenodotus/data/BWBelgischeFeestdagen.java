@@ -196,7 +196,7 @@ public class BWBelgischeFeestdagen {
     }
     
     public static void main(String[] args) {
-        BWBelgischeFeestdagen feesten = new BWBelgischeFeestdagen(2015);
+        BWBelgischeFeestdagen feesten = new BWBelgischeFeestdagen(2017);
         List<Feestdag> feest = feesten.getFeestdagen();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println(feest.get(0).getFeestdag() + " ");

@@ -987,21 +987,22 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int blue=0x7f020057;
-        public static final int date_number_background=0x7f020058;
-        public static final int day_bg=0x7f020059;
-        public static final int day_selected=0x7f02005a;
-        public static final int green=0x7f02005b;
-        public static final int ic_launcher=0x7f02005c;
-        public static final int navigation_next_item=0x7f02005d;
-        public static final int navigation_previous_item=0x7f02005e;
-        public static final int normal_day=0x7f02005f;
-        public static final int orange=0x7f020060;
-        public static final int purple=0x7f020061;
-        public static final int quickcontact_badge_overlay_normal_light=0x7f020062;
-        public static final int recycle_bin=0x7f020063;
-        public static final int red=0x7f020064;
-        public static final int today=0x7f020065;
+        public static final int bewerken=0x7f020057;
+        public static final int blue=0x7f020058;
+        public static final int date_number_background=0x7f020059;
+        public static final int day_bg=0x7f02005a;
+        public static final int day_selected=0x7f02005b;
+        public static final int green=0x7f02005c;
+        public static final int ic_launcher=0x7f02005d;
+        public static final int navigation_next_item=0x7f02005e;
+        public static final int navigation_previous_item=0x7f02005f;
+        public static final int normal_day=0x7f020060;
+        public static final int orange=0x7f020061;
+        public static final int purple=0x7f020062;
+        public static final int quickcontact_badge_overlay_normal_light=0x7f020063;
+        public static final int recycle_bin=0x7f020064;
+        public static final int red=0x7f020065;
+        public static final int today=0x7f020066;
     }
     public static final class id {
         public static final int action_bar=0x7f09001c;
@@ -2495,7 +2496,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x01010435
+            0x0101012f, 0x01010130, 0x01010131, 0x010103f8
         };
         /**
           <p>

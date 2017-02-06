@@ -1,5 +1,7 @@
 package be.zenodotus.databank;
 
+import java.util.GregorianCalendar;
+
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +11,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private SQLiteDatabase db;
 	
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	private static final String DATABASE_NAME = "Verlof";
 	
 	//tabellen
@@ -42,6 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String SOORT_ID = "id";
 	private static final String SOORT_SOORT = "soort";
 	private static final String SOORT_UREN = "uren";
+	private static final String SOORT_JAAR = "jaar";
 	
 	// records tblVerlof
 	private static final String VERLOF_ID = "id";
@@ -68,7 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ FEEST_JAAR + " INTEGER NOT NULL, " + FEEST_MAAND + " INTEGER NOT NULL, " + FEEST_DAG + " INTEGER NOT NULL); ";
 		String createSoortVerlofTable = "create table " + TABLE_SOORT_VERLOF + "("
 				+ SOORT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + SOORT_SOORT + " TEXT, "
-				+ SOORT_UREN + " TEXT);";
+				+ SOORT_UREN + " TEXT, " + SOORT_JAAR + " INTEGER);";
 		String createVerlofTable = "create table " + TABLE_VERLOF + "(" 
 				+ VERLOF_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + VERLOF_JAAR + " INTEGER NOT NULL, " + VERLOF_MAAND + " INTEGER NOT NULL, " + VERLOF_DAG + " INTEGER NOT NULL, " 
 				+ VERLOF_UREN + " TEXT NOT NULL, " + VERLOF_SOORT + " TEXT NOT NULL, " + VERLOF_NIEUW + " INTEGER);";
@@ -99,15 +102,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String vulPersonal = "insert into " + TABLE_PERSONAL + "(" + PERSONAL_NAAM + ") VALUES ('John Doe');";
 		arg0.execSQL(vulWerkdagenTable);
 		arg0.execSQL(vulPersonal);
-		String vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('55', '230:24');";
+		GregorianCalendar nu = new GregorianCalendar();
+		int jaar = nu.get(GregorianCalendar.YEAR);
+		String vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ", " + SOORT_JAAR + ") values ('55', '230:24', " + jaar + ");";
 		arg0.execSQL(vulSoorten);
-		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('AN', '19:12');";
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ", " + SOORT_JAAR + ") values ('AN', '19:12', " + jaar + ");";
 		arg0.execSQL(vulSoorten);
-		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('C', '76:48');";
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ", " + SOORT_JAAR + ") values ('C', '76:48', " + jaar + ");";
 		arg0.execSQL(vulSoorten);
-		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('CV', '12:48');";
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ", " + SOORT_JAAR + ") values ('CV', '12:48', " + jaar + ");";
 		arg0.execSQL(vulSoorten);
-		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ") values ('JV', '128:00');";
+		vulSoorten = "insert into " + TABLE_SOORT_VERLOF + "(" + SOORT_SOORT + ", " + SOORT_UREN + ", " + SOORT_JAAR + ") values ('JV', '128:00', " + jaar + ");";
 		arg0.execSQL(vulSoorten);
 		
 		

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal" >
+    <TextView 
+        android:id="@+id/txtKalenderdag" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_weight="0.1" />
+    <TextView 
+        android:id="@+id/txtWeekdag" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_weight="0.1" />
+    <TextView 
+        android:id="@+id/txtVerlof" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_weight="1.0" />
+    <ImageButton 
+        android:id="@+id/btnVerlof" 
+        android:visibility="invisible" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:src="@drawable/recycle_bin"  
+        android:layout_weight="0.1" 
+        android:contentDescription="@string/verlofBtn" />
+</LinearLayout>

@@ -7,6 +7,7 @@ package be.zenodotus.jvakantie;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,10 +18,15 @@ import be.zenodotus.adapters.DagenAdapter;
 import be.zenodotus.creatie.GeneratePDF;
 import be.zenodotus.data.BWBelgischeFeestdagen;
 import be.zenodotus.data.KalenderItems;
+import be.zenodotus.data.Rekenen;
+import be.zenodotus.data.Totalen;
+import be.zenodotus.data.Verlofsoorten;
 import be.zenodotus.databank.Feestdag;
 import be.zenodotus.databank.FeestdagDao;
 import be.zenodotus.databank.Verlof;
 import be.zenodotus.databank.VerlofDao;
+import be.zenodotus.databank.Verlofsoort;
+import be.zenodotus.databank.VerlofsoortDao;
 import be.zenodotus.databank.Werkdag;
 import be.zenodotus.databank.WerkdagDao;
 import android.support.v7.app.ActionBarActivity;
@@ -64,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
 	private FeestdagDao dao;
 	private WerkdagDao werkdagDao;
 	private GregorianCalendar nu;
+	private int positie;
 	private float x1, x2;
 	static final int MIN_DISTANCE = 150;
 	
@@ -83,7 +90,18 @@ public class MainActivity extends ActionBarActivity {
 				dao.toevoegenFeestdag(maken.get(i));
 			}
 		}
-		dao.close(); 
+		dao.close();
+		VerlofsoortDao verlofsoortDao = new VerlofsoortDao(this);
+		verlofsoortDao.open();
+		List verlofsoorten = verlofsoortDao.getAlleSoortenPerJaar(kal.get(GregorianCalendar.YEAR));
+		if(verlofsoorten.isEmpty()) {
+			Verlofsoorten maakSoorten = new Verlofsoorten(kal.get(GregorianCalendar.YEAR));
+			ArrayList<Verlofsoort> makenSoorten = maakSoorten.getVerlofsoorten();
+			for(int i = 0; i < makenSoorten.size(); i++) {
+				verlofsoortDao.toevoegenSoort(makenSoorten.get(i));
+			}
+		}
+		verlofsoortDao.close();
 		vulMaand();
 		setKalender();
 		
@@ -120,6 +138,8 @@ public class MainActivity extends ActionBarActivity {
 	public void onResume() {
 		super.onResume();
 		setKalender();
+		
+		
 	}
 	
 	
@@ -143,6 +163,8 @@ public class MainActivity extends ActionBarActivity {
 		setKalender();
 		
 	}
+	
+	
 	
 	public void setKalender() {
 		
@@ -187,12 +209,16 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	
+	
+	
 	ListView lst = (ListView) findViewById(R.id.lvkalenderdagen);
+	ArrayList<KalenderItems> lijst = new ArrayList<KalenderItems>(Arrays.asList(items));
+	
 	DagenAdapter<String> adapter = new DagenAdapter<String>(this,
-			android.R.layout.simple_list_item_1, items, maand, jaar);
+			android.R.layout.simple_list_item_1, lijst, maand, jaar);
 	
 	lst.setAdapter(adapter);
-
+	
 	adapter.notifyDataSetChanged();
 	/*lst.setOnTouchListener(new OnSwipeListener(this) {
 		public void onSwipeRight() {
@@ -207,6 +233,7 @@ public class MainActivity extends ActionBarActivity {
 	lst.setOnItemClickListener(new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View v,
 			int position, long id) {
+			positie = position;
 			boolean weekenddag = false;
 			werkdagDao = new WerkdagDao(MainActivity.this);
 			werkdagDao.open();
@@ -217,11 +244,85 @@ public class MainActivity extends ActionBarActivity {
 				}
 			}
 			if (!weekenddag) {
-				Intent addIntent = new Intent(MainActivity.this, AddActivity.class);
-				addIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
-				addIntent.putExtra("MAAND", kal.get(Calendar.MONTH));
-				addIntent.putExtra("DAG", position);
-				MainActivity.this.startActivityForResult(addIntent, 2);
+				LayoutInflater li = LayoutInflater.from(MainActivity.this);
+				View promptsView = li.inflate(R.layout.activity_add, null);
+
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+						MainActivity.this);
+
+				// set prompts.xml to alertdialog builder
+				alertDialogBuilder.setView(promptsView);
+
+				final Spinner spVerlofsoort = (Spinner) promptsView
+						.findViewById(R.id.spVerlofsoort);
+				final EditText txtUren = (EditText) promptsView.findViewById(R.id.txtUren);
+				
+
+				// set dialog message
+				alertDialogBuilder
+					.setCancelable(false)
+					.setPositiveButton("Toevoegen",
+					  new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog,int id) {
+						// get user input and set it to result
+						// edit text
+					    	boolean isVerlofOk = true;
+					    	int maand = kal.get(Calendar.MONTH);
+							int jaar = kal.get(Calendar.YEAR);
+							int dag = positie;
+							
+					    	Verlof verlof = new Verlof();
+							verlof.setDag(dag);
+							verlof.setMaand(maand);
+							verlof.setJaar(jaar);
+							verlof.setUrental(txtUren.getText().toString());
+							verlof.setVerlofsoort(spVerlofsoort.getSelectedItem().toString());
+							List<Rekenen> berekeningen = new Totalen(MainActivity.this, jaar).berekenUren();
+							for(int i = 0; i < berekeningen.size(); i++) {
+								if (berekeningen.get(i).getSoort().equals(verlof.getVerlofsoort())) {
+										if(!berekeningen.get(i).aftrekken(verlof.getUrental())) {
+											Toast.makeText(MainActivity.this, "Het verlofquota staat niet in de juiste vorm (0:00)", Toast.LENGTH_LONG).show();
+											isVerlofOk = false;
+											break;
+										} else {
+										if(berekeningen.get(i).getUren() < 0) {
+											Toast.makeText(MainActivity.this, "Het verlofquota is overschreden", Toast.LENGTH_LONG).show();
+											isVerlofOk = false;
+											break;
+										}
+										}
+								}
+								
+							}
+							if(isVerlofOk) {
+								VerlofDao verlofDao = new VerlofDao(MainActivity.this);
+								verlofDao.open();
+								verlofDao.toevoegenVerlof(verlof);
+								verlofDao.close();
+								Toast.makeText(MainActivity.this, "Verlof toegevoegd", Toast.LENGTH_LONG).show();
+								txtUren.setText("");
+								Intent returnIntent = new Intent();
+								returnIntent.putExtra("result", maand);
+								setResult(2, returnIntent);
+								finish();
+								
+							}
+							
+						}
+					  })
+					.setNegativeButton("Cancel",
+					  new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					    }
+					  });
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
+
 			}
 			
 		}
@@ -230,6 +331,9 @@ public class MainActivity extends ActionBarActivity {
 	
 	
 	}
+	
+	
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -266,33 +370,38 @@ public class MainActivity extends ActionBarActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		switch(item.getItemId()) {
 		case R.id.mnuToevoegenSoort:
-			Intent addIntent = new Intent(this, AddSoort.class);
-			this.startActivity(addIntent);
+			Intent soortenToevoegenIntent = new Intent(this, AddSoort.class);
+			
+			soortenToevoegenIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
+			this.startActivity(soortenToevoegenIntent);
 			break;
+		
 		case R.id.mnuSoorten:
 			Intent soortenIntent = new Intent(this, SoortenActivity.class);
+			soortenIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
 			this.startActivity(soortenIntent);
 			break;
 		case R.id.mnuBerekeningen:
 			Intent berekeningenIntent = new Intent(this, BerekeningenActivity.class);
+			berekeningenIntent.putExtra("JAAR", kal.get(Calendar.YEAR));
 			this.startActivity(berekeningenIntent);
 			break;
 			
 		case R.id.mnuPDF:
-			LayoutInflater li = LayoutInflater.from(this);
-			View promptsView = li.inflate(R.layout.prompt_jaar, null);
+			LayoutInflater li2 = LayoutInflater.from(this);
+			View promptsView2 = li2.inflate(R.layout.prompt_jaar, null);
 
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+			AlertDialog.Builder alertDialogBuilder2 = new AlertDialog.Builder(
 					this);
 
 			// set prompts.xml to alertdialog builder
-			alertDialogBuilder.setView(promptsView);
+			alertDialogBuilder2.setView(promptsView2);
 
-			final EditText userInput = (EditText) promptsView
+			final EditText userInput = (EditText) promptsView2
 					.findViewById(R.id.txtJaarInput);
 
 			// set dialog message
-			alertDialogBuilder
+			alertDialogBuilder2
 				.setCancelable(false)
 				.setPositiveButton("OK",
 				  new DialogInterface.OnClickListener() {
@@ -312,10 +421,10 @@ public class MainActivity extends ActionBarActivity {
 				  });
 
 			// create alert dialog
-			AlertDialog alertDialog = alertDialogBuilder.create();
+			AlertDialog alertDialog2 = alertDialogBuilder2.create();
 
 			// show it
-			alertDialog.show();
+			alertDialog2.show();
 			break;
 		
 		case R.id.action_settings:

@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="app_name">JVakantie</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -12,26 +11,23 @@
     <string name="knopToevoegen">Toevoegen</string>
     <string name="toevoegen">Voeg de gegevens toe aan de databank</string>
     <string name="soortToevoegen">Toevoegen Verlofsoort</string>
-	<string name="soorten">Soorten</string>
-	<string name="berekeningen">Berekeningen</string>
-	<string name="settings">Settings</string>
-	<string name="pdf">Maak PDF</string>
-	<string name="openPdf">Open PDF</string>
-	<string name="jaarInput">Geef het te genereren jaar: </string>
-	<string name="strNaam">Naam: </string>
-	<string name="strAdres">Adres: </string>
-	<string name="strTelefoon">GSM-nummer: </string>
-	<string name="strEmail">E-mailadres:</string>
-	<string name="btnBewaren">Bewaren</string>
-	<string name="verlofBtn">Verwijderen</string>
-	
-	<string name="monday">MA</string>
-	<string name="tuesday">DI</string>
-	<string name="wednesday">WO</string>
-	<string name="thursday">DO</string>
-	<string name="friday">VR</string>
-	<string name="saturday">ZA</string>
-	<string name="sunday">ZO</string>
-	
-	
+    <string name="soorten">Soorten</string>
+    <string name="berekeningen">Berekeningen</string>
+    <string name="settings">Settings</string>
+    <string name="pdf">Maak PDF</string>
+    <string name="openPdf">Open PDF</string>
+    <string name="jaarInput">Geef het te genereren jaar: </string>
+    <string name="strNaam">Naam: </string>
+    <string name="strAdres">Adres: </string>
+    <string name="strTelefoon">GSM-nummer: </string>
+    <string name="strEmail">E-mailadres:</string>
+    <string name="btnBewaren">Bewaren</string>
+    <string name="verlofBtn">Verwijderen</string>
+    <string name="monday">MA</string>
+    <string name="tuesday">DI</string>
+    <string name="wednesday">WO</string>
+    <string name="thursday">DO</string>
+    <string name="friday">VR</string>
+    <string name="saturday">ZA</string>
+    <string name="sunday">ZO</string>
 </resources>

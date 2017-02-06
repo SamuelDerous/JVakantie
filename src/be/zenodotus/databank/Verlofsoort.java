@@ -4,6 +4,7 @@ public class Verlofsoort {
 
 	private int id;
 	private String soort, uren;
+	private int jaar;
 	
 	public int getId() {
 		return id;
@@ -27,6 +28,13 @@ public class Verlofsoort {
 	
 	public void setId(int id) {
 		this.id = id;
+	}
+	public void setJaar(int jaar) {
+		this.jaar = jaar;
+	}
+	
+	public int getJaar() {
+		return jaar;
 	}
 	
 	
